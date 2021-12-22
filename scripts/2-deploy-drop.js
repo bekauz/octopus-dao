@@ -6,7 +6,7 @@ const app = sdk.getAppModule("0xb829e419909DDa91856eB6672F9Ac7f67Ae4bFB9");
 
 (async () => {
   try {
-      // describe ERC-1155 metadata
+    // describe ERC-1155 metadata
     const bundleDropModule = await app.deployBundleDropModule({
       name: "OctopusDAO Membership",
       description: "A DAO for octopus take over",
