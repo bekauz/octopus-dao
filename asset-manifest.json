@@ -1,0 +1,41 @@
+{
+  "files": {
+    "static/js/0.b6501ea6.chunk.js": "/octopus-dao/static/js/0.b6501ea6.chunk.js",
+    "static/js/0.b6501ea6.chunk.js.map": "/octopus-dao/static/js/0.b6501ea6.chunk.js.map",
+    "main.css": "/octopus-dao/static/css/main.13e43e85.chunk.css",
+    "main.js": "/octopus-dao/static/js/main.f2cb4bc0.chunk.js",
+    "main.js.map": "/octopus-dao/static/js/main.f2cb4bc0.chunk.js.map",
+    "runtime-main.js": "/octopus-dao/static/js/runtime-main.16bdc9bc.js",
+    "runtime-main.js.map": "/octopus-dao/static/js/runtime-main.16bdc9bc.js.map",
+    "static/js/3.0ac9bf8a.chunk.js": "/octopus-dao/static/js/3.0ac9bf8a.chunk.js",
+    "static/js/3.0ac9bf8a.chunk.js.map": "/octopus-dao/static/js/3.0ac9bf8a.chunk.js.map",
+    "static/js/4.2241a668.chunk.js": "/octopus-dao/static/js/4.2241a668.chunk.js",
+    "static/js/4.2241a668.chunk.js.map": "/octopus-dao/static/js/4.2241a668.chunk.js.map",
+    "static/js/5.450c6b04.chunk.js": "/octopus-dao/static/js/5.450c6b04.chunk.js",
+    "static/js/5.450c6b04.chunk.js.map": "/octopus-dao/static/js/5.450c6b04.chunk.js.map",
+    "static/js/6.34d6e5d4.chunk.js": "/octopus-dao/static/js/6.34d6e5d4.chunk.js",
+    "static/js/6.34d6e5d4.chunk.js.map": "/octopus-dao/static/js/6.34d6e5d4.chunk.js.map",
+    "static/js/7.339f62fb.chunk.js": "/octopus-dao/static/js/7.339f62fb.chunk.js",
+    "static/js/7.339f62fb.chunk.js.map": "/octopus-dao/static/js/7.339f62fb.chunk.js.map",
+    "static/js/8.4a7af8d1.chunk.js": "/octopus-dao/static/js/8.4a7af8d1.chunk.js",
+    "static/js/8.4a7af8d1.chunk.js.map": "/octopus-dao/static/js/8.4a7af8d1.chunk.js.map",
+    "static/js/9.e64d4f06.chunk.js": "/octopus-dao/static/js/9.e64d4f06.chunk.js",
+    "static/js/9.e64d4f06.chunk.js.map": "/octopus-dao/static/js/9.e64d4f06.chunk.js.map",
+    "static/js/10.7da048eb.chunk.js": "/octopus-dao/static/js/10.7da048eb.chunk.js",
+    "static/js/10.7da048eb.chunk.js.map": "/octopus-dao/static/js/10.7da048eb.chunk.js.map",
+    "static/js/11.b78a45f9.chunk.js": "/octopus-dao/static/js/11.b78a45f9.chunk.js",
+    "static/js/11.b78a45f9.chunk.js.map": "/octopus-dao/static/js/11.b78a45f9.chunk.js.map",
+    "index.html": "/octopus-dao/index.html",
+    "static/css/main.13e43e85.chunk.css.map": "/octopus-dao/static/css/main.13e43e85.chunk.css.map",
+    "static/js/0.b6501ea6.chunk.js.LICENSE.txt": "/octopus-dao/static/js/0.b6501ea6.chunk.js.LICENSE.txt",
+    "static/js/3.0ac9bf8a.chunk.js.LICENSE.txt": "/octopus-dao/static/js/3.0ac9bf8a.chunk.js.LICENSE.txt",
+    "static/js/5.450c6b04.chunk.js.LICENSE.txt": "/octopus-dao/static/js/5.450c6b04.chunk.js.LICENSE.txt",
+    "static/js/6.34d6e5d4.chunk.js.LICENSE.txt": "/octopus-dao/static/js/6.34d6e5d4.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.16bdc9bc.js",
+    "static/js/5.450c6b04.chunk.js",
+    "static/css/main.13e43e85.chunk.css",
+    "static/js/main.f2cb4bc0.chunk.js"
+  ]
+}
