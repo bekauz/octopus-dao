@@ -11,6 +11,10 @@ const bundleDrop = sdk.getBundleDropModule(
 const tokenModule = sdk.getTokenModule(
   "0xcb4D31e042D6DaF220653D092D51b0Aa43f554ec"
 );
+const voteModule = sdk.getVoteModule(
+  "0xF2bC16309dDB09f36e2254101c235D422FE2bE7F"
+  );
+
 
 const App = () => {
   // connectWallet hook from thirdWeb
@@ -24,6 +28,9 @@ const App = () => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [memberTokenAmounts, setMemberTokenAmounts] = useState({});
   const [memberAddresses, setMemberAddresses] = useState([]);
+  const [proposals, setProposals] = useState([]);
+  const [isVoting, setIsVoting] = useState(false);
+  const [hasVoted, setHasVoted] = useState(false);
 
   const shortenAddress = (str) => {
     return `${str.substring(0, 6)}...${str.substring(str.length - 4)}`;
@@ -98,6 +105,42 @@ const App = () => {
       console.error("failed to get balance", error);
     });
   }, [address]);
+
+  // retrieve all active proposals from the contract
+  useEffect(() => {
+    if (!hasClaimedNFT) {
+      return;
+    }
+
+    voteModule
+      .getAll()
+      .then((activeProposals) => {
+        setProposals(activeProposals);
+        console.log("proposals:", activeProposals);
+      }).catch((err) => {
+        console.error("failed to retrieve proposals", err);
+      });
+  }, [hasClaimedNFT]);
+
+  // check if user has voted 
+  useEffect(() => {
+    if (!hasClaimedNFT) {
+      return;
+    }
+    // if proposals have not been retrieved yet
+    if (!proposals.length) {
+      return;
+    }
+
+    voteModule
+      .hasVoted(proposals[0].proposalId, address)
+      .then((voteStatus) => {
+        setHasVoted(voteStatus);
+        console.log("user has already voted");
+      }).catch((err) => {
+        console.error("failed to check user vote status", err);
+      });
+  }, [hasClaimedNFT, proposals, address]);
   
   // if user hasn't connected the wallet, display an option to do so
   if (!address) {
@@ -136,6 +179,115 @@ const App = () => {
                 })}
               </tbody>
             </table>
+          </div>
+          <div>
+            <h2>Active Proposals</h2>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // disable button before entering async mode
+                setIsVoting(true);
+
+                // grab votes from the form into values
+                const votes = proposals.map((proposal) => {
+                  // 2 = abstrain (default)
+                  let voteResult = {
+                    proposalId: proposal.proposalId,
+                    vote: 2,
+                  };
+                  proposal.votes.forEach((vote) => {
+                    const elem = document.getElementById(
+                      `${proposal.proposalId}-${vote.type}`
+                    );
+                    if (elem.checked) {
+                      voteResult.vote = vote.type;
+                      return;
+                    }
+                  });
+                  return voteResult;
+                });
+
+                // validate that user delegates their token to vote
+                try {
+                  const delegation = await tokenModule.getDelegationOf(address);
+                  // check if user hasn't delegated their gov tokens yet
+                  if (delegation === ethers.constants.AddressZero) {
+                    await tokenModule.delegateTo(address);
+                  }
+                  // vote on proposals
+                  try {
+                    await Promise.all(
+                      votes.map(async (vote) => {
+                        // check if proposal is open for voting
+                        const proposal = await voteModule.get(vote.proposalId);
+                        // vote if it is, continue otherwise
+                        if (proposal.state === 1) {
+                          return voteModule.vote(vote.proposalId, vote.vote);
+                        }
+                        return;
+                      })
+                    );
+                    try {
+                      // execute proposals ready to be executed (state 4)
+                      await Promise.all(
+                        votes.map(async (vote) => {
+                          const proposal = await voteModule.get(vote.proposalId);
+                          if (proposal.state === 4) {
+                            return voteModule.execute(vote.proposalId);
+                          }
+                        })
+                      );
+                      setHasVoted(true);
+                      console.log("successfully voted");
+                    } catch (err) {
+                      console.error("failed to execute vote", err);
+                    }
+                  } catch (err) {
+                    console.error("failed to vote", err);
+                  } 
+                } catch (err) {
+                  console.error("failed to delegate tokens");
+                } finally {
+                  // re-enable button regardless
+                  setIsVoting(false);
+                }
+              }}
+            >
+             {proposals.map((proposal, index) => (
+                <div key={proposal.proposalId} className="card">
+                  <h5>{proposal.description}</h5>
+                  <div>
+                    {proposal.votes.map((vote) => (
+                      <div key={vote.type}>
+                        <input
+                          type="radio"
+                          id={proposal.proposalId + "-" + vote.type}
+                          name={proposal.proposalId}
+                          value={vote.type}
+                          //default the "abstain" vote to chedked
+                          defaultChecked={vote.type === 2}
+                        />
+                        <label htmlFor={proposal.proposalId + "-" + vote.type}>
+                          {vote.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <button disabled={isVoting || hasVoted} type="submit">
+                {isVoting
+                  ? "Voting..."
+                  : hasVoted
+                    ? "You Already Voted"
+                    : "Submit Votes"}
+              </button>
+              <small>
+                This will trigger multiple transactions that you will need to
+                sign.
+              </small>
+            </form>
           </div>
         </div>
       </div>
