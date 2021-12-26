@@ -3,7 +3,6 @@ import { ThirdwebSDK } from "@3rdweb/sdk";
 import { useWeb3 } from "@3rdweb/hooks";
 import { ethers } from "ethers";
 
-
 const sdk = new ThirdwebSDK("rinkeby");
 const bundleDrop = sdk.getBundleDropModule(
   "0x9E92B1F2B0C7CE7497040ac89eCD2d032E4d01F7",
@@ -142,6 +141,18 @@ const App = () => {
       });
   }, [hasClaimedNFT, proposals, address]);
   
+  if (error && error.name === "UnsupportedChainIdError") {
+    return (
+      <div className="unsupported-network">
+        <h2>Please connect to Rinkeby</h2>
+        <p>
+          OctopusDAO currently supports Rinkeby network only.
+          Please switch the network in your connected wallet.
+        </p>
+      </div>
+    );
+  }
+
   // if user hasn't connected the wallet, display an option to do so
   if (!address) {
     return (
@@ -153,12 +164,30 @@ const App = () => {
       </div>
     );
   }
+
+  const bgImgStyling = {
+    zIndex: "0",
+    position: "absolute",
+    left: "0",
+    top: "0",
+    width: "50vw",
+  }
+
+  const elevatedZIndex = {
+    zIndex: "1",
+  }
+
   // display internal DAO page for users who have claimed the NFT
   if (hasClaimedNFT) {
     return (
-      <div className="member-page">
-        <h1>OctopusDAO Member Page</h1>
-        <div>
+      <div className="member-page"> 
+        <img 
+          src={`${process.env.PUBLIC_URL}/octopus_home.png`} 
+          alt="home-octopus" 
+          style={bgImgStyling} 
+        />
+        <h1 style={elevatedZIndex}>OctopusDAO Member Page</h1>
+        <div style={elevatedZIndex}>
           <div>
             <h2>Member List</h2>
             <table className="card">
