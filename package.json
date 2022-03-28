@@ -7,8 +7,8 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "@3rdweb/hooks": "^1.6.0",
-    "@3rdweb/sdk": "^1.27.1",
+    "@3rdweb/hooks": "^1.9.2",
+    "@3rdweb/sdk": "^1.39.5",
     "dotenv": "^10.0.0",
     "ethers": "^5.5.2",
     "react": "^17.0.2",
